@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="/static/css/bootstrap.css">
     <style type="text/css">
 	html, body {
-        background-color: #eee;
-        background-image: url('https://www.google.com.tr/search?q=wallpaper+music&tbm=isch&tbo=u&source=univ&sa=X&ei=CQDfUtURgtngBOnWgdgO&sqi=2&ved=0CCkQsAQ&biw=1317&bih=678#facrc=_&imgdii=WVf6acpKuCLQVM%3A%3Bm72lbvJprdBgaM%3BWVf6acpKuCLQVM%3A&imgrc=WVf6acpKuCLQVM%253A%3BaW98ev_O2U8ylM%3Bhttp%253A%252F%252F6269-9001.zippykid.netdna-cdn.com%252Fwp-content%252Fuploads%252F2013%252F08%252FCool-Music-Wallpapers.jpg%3Bhttp%253A%252F%252Fwww.w8themes.com%252Fmusic-wallpapers%252F%3B1600%3B1200');
-        background-repeat:repeat;
+        background-color: #777799;
+        background-repeat:no-repeat;
+	background-position:x-% y-%;
 
       }
       body {
-        padding-top: 40px;
+        padding-top: 300px;
       }
       .container {
-        width: 350px;
+        width: 1000px;
       }
 
       /* The white background content wrapper */
@@ -33,7 +33,7 @@
       }
 
           .login-form {
-                margin-left: 65px;
+                margin-left: 100px;
           }
 
           legend {
@@ -56,17 +56,20 @@ body{
 </style>
 </head>
 <body>
-	{{ state }}
+
+	<div align="center">
+
 	<form action="/login/" method="post">
 		{% if next %}
 		<input type="hidden" name="next" value="{{ next }}" />
 		{% endif %}
 		username:
-		<input type="text" name="username" value="{{ username}}" /><br />
+		<input type="text" text-align:"center"  name="username" value="{{ username}}" /><br />
 		password:
-		<input type="password" name="password" value="" /><br />
+		<input type="password"  text-align: "center" name="password" value="" /><br />
 
 		<input type="submit" value="Log In" />
 	</form>
+	</div>
 </body>
 </html>

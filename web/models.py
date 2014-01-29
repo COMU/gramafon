@@ -26,3 +26,10 @@ class Song(models.Model):
     album = models.ForeignKey(Album)
     song_file = models.ForeignKey(File)
 
+class User(model.Model):
+
+    id = models.IntegerField(max_length=30)
+    username = models.CharField(max_length=30)
+    password = models.CharField(max_length=30)
+
+

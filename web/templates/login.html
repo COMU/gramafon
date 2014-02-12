@@ -56,10 +56,13 @@ body{
 </style>
 </head>
 <body>
+	{% if form.errors %}
+          <p class="error"> Kullanici adi ve parola hatali </p>
+        {% endif %}
 
 	<div align="center">
 
-	<form action="/login/" method="post">
+	<form action="/login/" method="post"> {% csrf_token %}
 		{% if next %}
 		<input type="hidden" name="next" value="{{ next }}" />
 		{% endif %}

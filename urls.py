@@ -11,7 +11,11 @@ from django.conf.urls.defaults import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^$', 'web.views.login'),
     (r'^login/$', 'web.views.login_user'),
+    (r'^gramafon/$', 'web.views.gramafon'),
+    (r'^invalid/$', 'web.views.invalid'),
+
 
 )
 

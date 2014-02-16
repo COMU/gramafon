@@ -1,5 +1,4 @@
 #! -*- coding: utf-8 -*-
-
 import os
 import sys
 import hashlib
@@ -8,13 +7,17 @@ from os.path import abspath, dirname
 from os import getcwd
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
+import pyglet # Play music on console
+from pyglet.gl import *
+import pyglet.media as media
 sys.path.append(dirname(dirname(getcwd())))
-
+from mutagen.flac import FLAC #Flac  
+from mutagen.apev2 import APEv2
+from mutagen.mp3 import MP3
 from gramafon.utils.id3.handler import *
 import time
 import logging
 from watchdog.events import LoggingEventHandler
-
 
 sys.path.append(abspath(dirname(dirname(getcwd()))))
 sys.path.append(abspath(dirname(dirname(dirname(getcwd())))))
@@ -35,19 +38,15 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
         if fileExtension[1:] not in list(settings.MEDIA_FORMATS):
             continue
 
-        logger.message("file: %s" % f)
         path = os.path.join(root, f)
-
-        md5=hashlib.md5(open(path, 'r').read()).hexdigest()
-        logger.message("\tmd5: %s" % md5)
-        sha1=hashlib.sha1(open(path, 'rb').read()).hexdigest()
-        logger.message("\tsha1: %s" % sha1)
+	md5=hashlib.md5(open(path, 'r').read()).hexdigest()
+	sha1=hashlib.sha1(open(path, 'rb').read()).hexdigest()
 
         result = File.objects.filter(md5=md5)
         size=os.path.getsize(path)
         logger.message("\tsize: %s bayt" % size)
-
-        if len(result) == 0:
+	
+	if len(result) == 0:
 
             logger.message("first time checking for file")
             id3_manager = ID3Manager()
@@ -91,17 +90,22 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
             except:
                 song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file)
 
-
-
-
-
-
-
-        else:
+	else:
             logger.message("File: %s is already checked" % (f) )
 
+	music = pyglet.media.load(path) #You need to install libavbin-dev
+	player=media.Player()
+    	player.queue(music)
+    	player.volume=1.0
+    	player.play()
+    	try:
+        	pyglet.app.run()
+    	except KeyboardInterrupt:
+        	player.next()
 
-
+#	music.play()
+#	pyglet.app.run()
+#	pyglet.app.stop()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,

@@ -51,20 +51,36 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
             logger.message("first time checking for file")
             id3_manager = ID3Manager()
             id3_manager.parse(path)
-            album_name = id3_manager.get_album_name()
-            logger.message("\tAlbum Name: %s" % album_name)
-            album_date = id3_manager.get_album_date()
-            logger.message("\tAlbum Date: %s" % album_date)
-            singer_name = id3_manager.get_singer_info()
-            logger.message("\tSinger: %s" % singer_name)
-            song_title = id3_manager.get_song_title()
-            logger.message("\tSong: %s" % song_title)
+	    try:	
+            	album_name = id3_manager.get_album_name()
+            	logger.message("\tAlbum Name: %s" % album_name)
+	    except ValueError:
+		album_name = ""
+                logger.message("\tAlbum Name: %s" % album_name)
+
+	    try:	
+            	album_date = id3_manager.get_album_date()
+            	logger.message("\tAlbum Date: %s" % album_date)
+	    except ValueError:
+		album_date = ""
+                logger.message("\tAlbum Date: %s" % album_date)
+
+            try:
+	    	singer_name = id3_manager.get_singer_info()
+            	logger.message("\tSinger: %s" % singer_name)
+	    except ValueError:
+		singer_name = ""
+                logger.message("\tSinger: %s" % singer_name)
+
+            try:
+	    	song_title = id3_manager.get_song_title()
+            	logger.message("\tSong: %s" % song_title)
+	    except ValueError:
+                song_title = ""
+                logger.message("\tSong: %s" % song_title)
+
 
             type=fileExtension
-
-            print type
-            print path
-
 
             song_file, status = File.objects.get_or_create(path=path, size=size, md5=md5,type=fileExtension,sha1=sha1)
 
@@ -76,8 +92,7 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
                 pass
 
             try:
-
-                album, status = Album.objects.get_or_create(name=album_name, publish_date=album_date1)
+		album, status = Album.objects.get_or_create(name=album_name, publish_date=album_date1)
             except ValueError:
                 pass
 
@@ -85,7 +100,8 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
                 singer, status = Singer.objects.get_or_create(name=singer_name)
             except ValueError :
                 pass
-            try:
+            
+	    try:
                 song = Song.objects.create(title=song_title, singer=singer, album=album, song_file=song_file)
             except:
                 song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file)
@@ -96,17 +112,17 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 	music = pyglet.media.load(path) #You need to install libavbin-dev
 	player=media.Player()
     	player.queue(music)
-    	player.volume=1.0
     	player.play()
     	try:
+		logger.message("\tNow: %s" % f)
+		logger.message("\tSize: %s bayt" % size)
+		logger.message("\tLength: %s bayt" % music.duration) # music.duration is the song length	
+		def exit_callback(dt):
+    			pyglet.app.exit()
+		pyglet.clock.schedule_once(exit_callback , music.duration) #
         	pyglet.app.run()
     	except KeyboardInterrupt:
         	player.next()
-
-#	music.play()
-#	pyglet.app.run()
-#	pyglet.app.stop()
-
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
         format='%(asctime)s - %(message)s',

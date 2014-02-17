@@ -7,9 +7,6 @@ from os.path import abspath, dirname
 from os import getcwd
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
-import pyglet # Play music on console
-from pyglet.gl import *
-import pyglet.media as media
 sys.path.append(dirname(dirname(getcwd())))
 from mutagen.flac import FLAC #Flac  
 from mutagen.apev2 import APEv2
@@ -54,28 +51,28 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 	    try:	
             	album_name = id3_manager.get_album_name()
             	logger.message("\tAlbum Name: %s" % album_name)
-	    except ValueError:
+	    except:
 		album_name = ""
                 logger.message("\tAlbum Name: %s" % album_name)
 
 	    try:	
-            	album_date = id3_manager.get_album_date()
-            	logger.message("\tAlbum Date: %s" % album_date)
-	    except ValueError:
-		album_date = ""
-                logger.message("\tAlbum Date: %s" % album_date)
+            	album_year = id3_manager.get_album_year()
+            	logger.message("\tAlbum Date: %s" % album_year)
+	    except:
+		album_year = 0
+                logger.message("\tAlbum Year: %s" % album_year)
 
             try:
 	    	singer_name = id3_manager.get_singer_info()
             	logger.message("\tSinger: %s" % singer_name)
-	    except ValueError:
+	    except:
 		singer_name = ""
                 logger.message("\tSinger: %s" % singer_name)
 
             try:
 	    	song_title = id3_manager.get_song_title()
             	logger.message("\tSong: %s" % song_title)
-	    except ValueError:
+	    except:
                 song_title = ""
                 logger.message("\tSong: %s" % song_title)
 
@@ -85,15 +82,13 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
             song_file, status = File.objects.get_or_create(path=path, size=size, md5=md5,type=fileExtension,sha1=sha1)
 
             try:
-                album_date=int(album_date)
-
-                album_date1=datetime.date(album_date, 02, 02)#TODO:
+                album_year=int(album_year)
             except ValueError:
                 pass
 
             try:
-		album, status = Album.objects.get_or_create(name=album_name, publish_date=album_date1)
-            except ValueError:
+		album, status = Album.objects.get_or_create(name=album_name, publish_date=album_year)
+            except :
                 pass
 
             try:
@@ -104,25 +99,12 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 	    try:
                 song = Song.objects.create(title=song_title, singer=singer, album=album, song_file=song_file)
             except:
-                song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file)
+		pass
+                #song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file)
 
 	else:
             logger.message("File: %s is already checked" % (f) )
 
-	music = pyglet.media.load(path) #You need to install libavbin-dev
-	player=media.Player()
-    	player.queue(music)
-    	player.play()
-    	try:
-		logger.message("\tNow: %s" % f)
-		logger.message("\tSize: %s bayt" % size)
-		logger.message("\tLength: %s bayt" % music.duration) # music.duration is the song length	
-		def exit_callback(dt):
-    			pyglet.app.exit()
-		pyglet.clock.schedule_once(exit_callback , music.duration) #
-        	pyglet.app.run()
-    	except KeyboardInterrupt:
-        	player.next()
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO,
         format='%(asctime)s - %(message)s',

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.core.context_processors import csrf
 
 
-def login(request):
+def login_user(request):
 	username = request.POST.get('username','')
 	password = request.POST.get('password','')
 	user = auth.authenticate(username=username, password=password)

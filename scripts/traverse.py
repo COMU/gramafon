@@ -45,7 +45,7 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 	
 	if len(result) == 0:
 
-            logger.message("first time checking for file")
+            logger.message("File: %s is first checked" % (f) )
             id3_manager = ID3Manager()
             id3_manager.parse(path)
 	    try:	
@@ -104,22 +104,6 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 
 	else:
             logger.message("File: %s is already checked" % (f) )
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO,
-        format='%(asctime)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S')
-    path = sys.argv[1] if len(sys.argv) > 1 else '.'
-    event_handler = LoggingEventHandler()
-    observer = Observer()
-    observer.schedule(event_handler, path, recursive=True)
-    observer.start()
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-observer.join()
 
 
 

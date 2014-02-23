@@ -1,0 +1,47 @@
+<html>
+<head>
+	<script type="text/javascript" src="/static/js/jquery.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.ui.all.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.layout.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+                	var myLayout = $('body').layout(); 
+			myLayout.sizePane("west", 400); // en dogudakinin buyuklugunu belirledik
+                        myLayout.sizePane("east", 400);
+            	});
+	</script>
+
+	<style type="text/css">
+		.ui-layout-pane {               /*arkaplani beyaz, 1 piksel cerceveli ve ice dogru 10 piksel bosluk birakilan bir eleman*/
+			background: #FFF;
+			border: 1px solid #BBB;
+			padding: 10px;
+			overflow: auto;
+		}
+
+		.ui-layout-resizer { /* all 'resizer-bars' */
+			background: #DDD;
+		}
+
+		.ui-layout-toggler { /* all 'toggler-buttons' */
+			background: #AAA;
+		}
+		.ui-layout-west {
+			background: red;
+		}
+		.ui-layout-east {
+			background: blue;
+		}
+		.ui-layout-center {
+			background: green;
+		}
+	
+	</style>
+</head>
+<body>
+	<div class="ui-layout-center">Center</div>
+	<div class="ui-layout-east">East</div>
+	<div class="ui-layout-west">West</div>
+</body>
+</html>

@@ -16,8 +16,6 @@ def login_user(request):
 	else:
 		return HttpResponseRedirect('/login')	
 def gramafon(request):
-	return render_to_response('anasayfa.html')
+	return render_to_response('homepage.html')
 				
-def login(request):
-	return render_to_response('login.html')
 	

@@ -1,5 +1,5 @@
 from django.db import models
-
+from tastypie.utils.timezone import now
 # Create your models here.
 
 class Album(models.Model):
@@ -26,10 +26,8 @@ class Song(models.Model):
     album = models.ForeignKey(Album)
     song_file = models.ForeignKey(File)
 
-#class User(models.Model):
+class Login(models.Model):
 
- #   id = models.IntegerField(max_length=30)
-  #  username = models.CharField(max_length=30)
-   # password = models.CharField(max_length=30)
-
+    username = models.CharField(max_length=150)
+    password = models.CharField(max_length=150)
 

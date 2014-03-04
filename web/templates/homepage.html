@@ -9,7 +9,27 @@
                 	var myLayout = $('body').layout(); 
 			myLayout.sizePane("west", 400); // en dogudakinin buyuklugunu belirledik
                         myLayout.sizePane("east", 400);
-            	});
+            		
+			$.ajax({
+    				url: "/api/album/?format=json",
+    				error: function(obj){
+        				alert(obj.status + "\n" + obj.statusText);
+    				},
+    			success: function(obj) {
+				var obj = JSON.parse(obj); //Parsed jsonstring
+				var currentobj = obj.objects
+				
+				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
+						if (currentobj[i].name != "" && (currentobj)[i].name[0].toUpperCase() == "B"){ 
+							$('#B').append('<li>' + (obj.objects)[i].name + ' </li>');				
+						}
+						else {
+							$('.ui-layout-west').append('<li>' + (obj.objects)[i].name + ' </li>');
+						}	
+				}
+			}	
+			});
+		});
 	</script>
 
 	<style type="text/css">
@@ -28,7 +48,7 @@
 			background: #AAA;
 		}
 		.ui-layout-west {
-			<li><a class ="A" href="#">
+			background: red;			
 		}
 		.ui-layout-east {
 			background: blue;
@@ -41,13 +61,22 @@
 </head>
 <body>
 	<div class="ui-layout-west">
-		<ul>
-			<li><a href="#">A</a></li>
-			<li><a href="#">B</a></li>
-			<li><a href="#">C</a></li>
-			<li><a href="#">D</a></li>
-			<li><a href="#">E</a></li>
+		<ul id="A">
+			
 		</ul>
+		
+		<span id="B">
+                        <ul B >
+			</ul>
+                </span>
+
+		<ul id="C">
+                        
+                </ul>
+
+		<ul id="D">
+                        
+                </ul>
 	</div> 
 	<div class="ui-layout-center">Center</div>
 	<div class="ui-layout-east">East</div>

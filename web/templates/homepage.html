@@ -1,24 +1,21 @@
 <html>
 <head>
 	<script type="text/javascript" src="/static/js/jquery.js"></script>
-	<script type="text/javascript" src="/static/js/jquery.ui.all.js"></script>
 	<script type="text/javascript" src="/static/js/jquery.layout.js"></script>
-	<script type="text/javascript" src="/static/js/jquery.accordion.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
                 	var myLayout = $('body').layout(); 
 			myLayout.sizePane("west", 400); // en dogudakinin buyuklugunu belirledik
                         myLayout.sizePane("east", 400);
-            		$('#accordion').accordion({
-				active: false, 
-    				header: '.head', 
-    				navigation: true, 
-    				event: 'mouseover', 
-    				fillSpace: true, 
-    				animated: 'easeslide' 
-
+ 
+			$("#B").click(function(){
+				$(".B").show();  
 			});
+			$("#Y").click(function(){
+                                $(".Y").show();  
+                        });
 
+			
 			$.ajax({
     				url: "/api/album/?format=json",
     				error: function(obj){
@@ -30,15 +27,20 @@
 				
 				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
 						if (currentobj[i].name != "" && (currentobj)[i].name[0].toUpperCase() == "B"){ 
-							$('#B').append('<div>' + (obj.objects)[i].name + ' </div>');				
+							$('.B').append('<li>' + currentobj[i].name + '</li>');				
 						}
+						if (currentobj[i].name != "" && (currentobj)[i].name[0].toUpperCase() == "Y"){ 
+                                                        $('.Y').append('<li>' + currentobj[i].name + '</li>');                          
+                                                }
+
 						else {
-							$('.ui-layout-west').append('<li>' + (obj.objects)[i].name + ' </li>');
+							$('.ui-layout-west').append('<li>' + currentobj[i].name + ' </li>');
 						}	
 				}
 			}	
 			});
 		});
+		
 	</script>
 
 	<style type="text/css">
@@ -47,6 +49,12 @@
 			border: 1px solid #BBB;
 			padding: 10px;
 			overflow: auto;
+		}
+		.B{
+			display: none;
+		}
+		.Y{
+			display: none;
 		}
 
 		.ui-layout-resizer { /* all 'resizer-bars' */
@@ -70,14 +78,10 @@
 </head>
 <body>
 	<div class="ui-layout-west">
-		<li id="accordion">
-			<h3 id="B" >B</h3>
-			<li id="C">C </li>
-			
-			
-     
-		</li>
-
+		 <div id="B">B</div>
+		 <h3 class="B"></h3>
+		 <div id="Y">Y</div>
+		<h3 class="Y"></h3>
 	</div> 
 	<div class="ui-layout-center">Center</div>
 	<div class="ui-layout-east">East</div>

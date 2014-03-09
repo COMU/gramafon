@@ -17,6 +17,10 @@ urlpatterns = patterns('',
    # (r'^login/$', 'web.views.login_user'),
     (r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
     (r'^gramafon/$', 'web.views.gramafon'),
+    (r'^gramafon/page1$', 'web.views.page1'),
+    (r'^gramafon/page2$', 'web.views.page2'),
+    (r'^gramafon/page3$', 'web.views.page3'),
+
 #    (r'^api/', include(song_resource.urls))	#Added song_resource for rest-api
 #    (r'^api/', include(file_resource.urls))    #Added file_resource for rest_api
 #    (r'^api/', include(singer_resource.urls))  #Added singer_resource for rest_api

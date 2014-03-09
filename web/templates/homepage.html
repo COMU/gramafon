@@ -1,89 +1,12 @@
 <html>
 <head>
-	<script type="text/javascript" src="/static/js/jquery.js"></script>
-	<script type="text/javascript" src="/static/js/jquery.layout.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-                	var myLayout = $('body').layout(); 
-			myLayout.sizePane("west", 400); // en dogudakinin buyuklugunu belirledik
-                        myLayout.sizePane("east", 400);
- 
-			$("#B").click(function(){
-				$(".B").show();  
-			});
-			$("#Y").click(function(){
-                                $(".Y").show();  
-                        });
-
-			
-			$.ajax({
-    				url: "/api/album/?format=json",
-    				error: function(obj){
-        				alert(obj.status + "\n" + obj.statusText);
-    				},
-    			success: function(obj) {
-				var obj = JSON.parse(obj); //Parsed jsonstring
-				var currentobj = obj.objects
-				
-				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
-						if (currentobj[i].name != "" && (currentobj)[i].name[0].toUpperCase() == "B"){ 
-							$('.B').append('<li>' + currentobj[i].name + '</li>');				
-						}
-						if (currentobj[i].name != "" && (currentobj)[i].name[0].toUpperCase() == "Y"){ 
-                                                        $('.Y').append('<li>' + currentobj[i].name + '</li>');                          
-                                                }
-
-						else {
-							$('.ui-layout-west').append('<li>' + currentobj[i].name + ' </li>');
-						}	
-				}
-			}	
-			});
-		});
-		
-	</script>
-
-	<style type="text/css">
-		.ui-layout-pane {               /*arkaplani beyaz, 1 piksel cerceveli ve ice dogru 10 piksel bosluk birakilan bir eleman*/
-			background: #FFF;
-			border: 1px solid #BBB;
-			padding: 10px;
-			overflow: auto;
-		}
-		.B{
-			display: none;
-		}
-		.Y{
-			display: none;
-		}
-
-		.ui-layout-resizer { /* all 'resizer-bars' */
-			background: #DDD;
-		}
-
-		.ui-layout-toggler { /* all 'toggler-buttons' */
-			background: #AAA;
-		}
-		.ui-layout-west {
-			background: red;			
-		}
-		.ui-layout-east {
-			background: blue;
-		}
-		.ui-layout-center {
-			background: green;
-		}
-	
-	</style>
+<title> Gramafon </title>
 </head>
-<body>
-	<div class="ui-layout-west">
-		 <div id="B">B</div>
-		 <h3 class="B"></h3>
-		 <div id="Y">Y</div>
-		<h3 class="Y"></h3>
-	</div> 
-	<div class="ui-layout-center">Center</div>
-	<div class="ui-layout-east">East</div>
-</body>
+
+<frameset cols = "400,400,*">
+	<frame name="frame1" src="page1">
+	<frame name="frame2" src="page2">
+	<frame name="frame3" src="page3">
+</frameset>
+
 </html>

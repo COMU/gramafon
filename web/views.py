@@ -17,5 +17,11 @@ def login_user(request):
 		return HttpResponseRedirect('/login')	
 def gramafon(request):
 	return render_to_response('homepage.html')
+def page1(request):
+	return render_to_response('page1.html')
 				
-	
+def page2(request):
+        return render_to_response('page2.html')	
+
+def page3(request):
+        return render_to_response('page3.html')

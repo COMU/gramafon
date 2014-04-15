@@ -57,7 +57,7 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 
 	    try:	
             	album_year = id3_manager.get_album_year()
-            	logger.message("\tAlbum Date: %s" % album_year)
+            	logger.message("\tAlbum Year: %s" % album_year)
 	    except:
 		album_year = 0
                 logger.message("\tAlbum Year: %s" % album_year)
@@ -81,17 +81,17 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 
             song_file, status = File.objects.get_or_create(path=path, size=size, md5=md5,type=fileExtension,sha1=sha1)
 
-            #album, status = Album.objects.get_or_create(name="album_name", publish_date=1972)
-
             try:
                 singer, status = Singer.objects.get_or_create(name=singer_name)
             except ValueError :
                 pass
+	
+	    album, status = Album.objects.get_or_create(name=album_name, publish_date=album_year)
             
-	   # try:
-	#	song = Song.objects.create(title=song_title, singer=singer, album=album, song_file=song_file)
-	 #   except:
-	#	song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file)
+	    try:
+		song = Song.objects.create(title=song_title, singer=singer, album=album, song_file=song_file)
+	    except:
+		song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file)
 
 	else:
             logger.message("File: %s is already checked" % (f) )

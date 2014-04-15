@@ -5,7 +5,7 @@ from tastypie.utils.timezone import now
 class Album(models.Model):
 
     name = models.CharField(max_length=150)
-    publish_date = models.DateField()
+    publish_date = models.IntegerField()
 
 class Singer(models.Model):
 
@@ -25,9 +25,4 @@ class Song(models.Model):
     singer = models.ForeignKey(Singer)
     album = models.ForeignKey(Album)
     song_file = models.ForeignKey(File)
-
-class Login(models.Model):
-
-    username = models.CharField(max_length=150)
-    password = models.CharField(max_length=150)
 

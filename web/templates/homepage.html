@@ -24,11 +24,11 @@
      			success: function(obj) {
 				var obj = JSON.parse(obj); //Parsed jsonstring
 				var currentobj = obj.objects
-				var alphabet =["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9"];
+				var alphabet =["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","1","2","3","4","5","6","7","8","9"];
 				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
 					for(var j=0; j<=26; j++){
-					if (currentobj[i].title != "" && (currentobj)[i].title[0].toUpperCase() == alphabet[j]['toUpperCase']()){
-						$('.A').append('<li>' + (obj.objects)[i].title + ' </li>');	
+					if (currentobj[i].title != "" && (currentobj)[i].title[0].toUpperCase() == alphabet[j]){
+						$('.' + alphabet[j]).append('<li>' + (obj.objects)[i].title + ' </li>');	
 					}
 					
 					}	

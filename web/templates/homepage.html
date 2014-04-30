@@ -24,13 +24,13 @@
      			success: function(obj) {
 				var obj = JSON.parse(obj); //Parsed jsonstring
 				var currentobj = obj.objects
-
+				var alphabet =["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","1","2","3","4","5","6","7","8","9"];
 				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
-					if (currentobj[i].title != "" && (currentobj)[i].title[0].toUpperCase() == "A"){
+					for(var j=0; j<=26; j++){
+					if (currentobj[i].title != "" && (currentobj)[i].title[0].toUpperCase() == alphabet[j]['toUpperCase']()){
 						$('.A').append('<li>' + (obj.objects)[i].title + ' </li>');	
 					}
-					else {
-						$('.ui-layout-west').append('<li>' + (obj.objects)[i].title + ' </li>');
+					
 					}	
 				}
 			}	
@@ -71,9 +71,11 @@
 </head>
 <body>
 	<div class="ui-layout-west">
+	<ul>
+	<li id="A">A</li>
+	<li class="A"></li>
+	</ul>
 	
-	<div id="A">A</div>
-	<h3 class="A"></h3>
 
 	
 	</div>

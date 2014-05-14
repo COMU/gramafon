@@ -26,15 +26,27 @@
 				var obj = JSON.parse(obj); //Parsed jsonstring
 				var currentobj = obj.objects
 				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
-					for(var j=0; j<=26; j++){
+					for(var j=0; j<=26; j++){ //sıralama için
 					if (currentobj[i].title != "" && (currentobj)[i].title[0].toUpperCase() == alphabet[j]){
-						$('.' + alphabet[j]).append('<li>' + (obj.objects)[i].title + ' </li>');	
+						$('.' + alphabet[j]).append('<li id='+currentobj[i].title+'>' + (obj.objects)[i].title + ' </li>');
+							
 					}
 					
-					}	
+					}
+					
+					
+                                        
+                                          	
 				}
+				for(var j=0; j<=26;j++){
+                        		$('#'+(currentobj[i]).title).click( function(){
+                                		$('.L').append('<li>' + (currentobj[i]).title + ' </li>');
+                                                        });
+                                        }
+	
 			}	
 		});
+
 	});
 </script>
 
@@ -77,7 +89,12 @@
 	</ul>
 	
 	</div>
-	<div class="ui-layout-center">Center</div>
+	<div class="ui-layout-center">
+	<ul>	
+	<li class="L">Liste</li>
+	
+	</ul>
+	</div>
 	<div class="ui-layout-east">East</div>
 </body>
 </html>

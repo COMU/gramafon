@@ -14,6 +14,9 @@
 		$("#" + alphabet[0]).click(function(){
 			$("." + alphabet[0]).toggle(1000);
 		});
+		$("#List").click(function(){
+                        $(".List").toggle(1000);
+                });
 
 		
             
@@ -28,7 +31,7 @@
 				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
 					for(var j=0; j<=26; j++){ //sıralama için
 					if (currentobj[i].title != "" && (currentobj)[i].title[0].toUpperCase() == alphabet[j]){
-						$('.' + alphabet[j]).append('<li id='+currentobj[i].title+'>' + (obj.objects)[i].title + ' </li>');
+						$('.' + alphabet[j]).append('<li id='+currentobj[i].title+'> <button>' + (obj.objects)[i].title + '</button> </li>');
 							
 					}
 					
@@ -41,7 +44,7 @@
 				for(var j=0; j<=26; j++){
 					$("ul." + alphabet[j]+ " li").click(function(){ //albüme tıklayınca tıklananı ekliyor
  						var te = $(this).text();
- 						$('.L').append('<li>' + te + ' </li>');
+ 						$('.List').append('<li> <button>' + te + '</button> </li>');
 					});
 				}	
 			}	
@@ -66,13 +69,13 @@
 		background: #AAA;
 	}
 	.ui-layout-west {
-		background: red;	
+		background: #00CCCC;	
 	}
 	.ui-layout-east {
-		background: blue;
+		background: #009999;
 	}
 	.ui-layout-center {
-		background: green;
+		background: #00AAAA;
 	}
 	
 	.A{
@@ -84,15 +87,15 @@
 <body>
 	<div class="ui-layout-west">
 	<ul>
-	<ul id="A">A</ul>
+	<button id="A">A</button>
 	<ul class="A"></ul>
 	</ul>
 	
 	</div>
 	<div class="ui-layout-center">
 	<ul>	
-	<ul class="L">Liste</ul>
-	
+	<ul id="List"><button>Liste</button></ul>
+	<ul class="List"></ul>
 	</ul>
 	</div>
 	<div class="ui-layout-east">East</div>

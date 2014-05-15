@@ -12,7 +12,7 @@
 		 myLayout.sizePane("west", 400); // en dogudakinin buyuklugunu belirledik
                  myLayout.sizePane("east", 400);	 
 		$("#" + alphabet[0]).click(function(){
-			$("." + alphabet[0]).show();
+			$("." + alphabet[0]).toggle(1000);
 		});
 
 		
@@ -38,12 +38,12 @@
                                         
                                           	
 				}
-				for(var j=0; j<=26;j++){
-                        		$('#'+(currentobj[i]).title).click( function(){
-                                		$('.L').append('<li>' + (currentobj[i]).title + ' </li>');
-                                                        });
-                                        }
-	
+				for(var j=0; j<=26; j++){
+					$("ul." + alphabet[j]+ " li").click(function(){ //albüme tıklayınca tıklananı ekliyor
+ 						var te = $(this).text();
+ 						$('.L').append('<li>' + te + ' </li>');
+					});
+				}	
 			}	
 		});
 
@@ -84,14 +84,14 @@
 <body>
 	<div class="ui-layout-west">
 	<ul>
-	<li id="A">A</li>
-	<li class="A"></li>
+	<ul id="A">A</ul>
+	<ul class="A"></ul>
 	</ul>
 	
 	</div>
 	<div class="ui-layout-center">
 	<ul>	
-	<li class="L">Liste</li>
+	<ul class="L">Liste</ul>
 	
 	</ul>
 	</div>

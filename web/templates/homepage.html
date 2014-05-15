@@ -31,7 +31,7 @@
 				for (var i=0; i<currentobj.length; i++){ //objects dizinine bakıyor, isimleri yazdırıyor
 					for(var j=0; j<=26; j++){ //sıralama için
 					if (currentobj[i].title != "" && (currentobj)[i].title[0].toUpperCase() == alphabet[j]){
-						$('.' + alphabet[j]).append('<li id='+currentobj[i].title+'> <button>' + (obj.objects)[i].title + '</button> </li>');
+						$('.' + alphabet[j]).append('<li id='+currentobj[i].title+'> <button style="color:#2222FF">' + (obj.objects)[i].title + '</button> </li>');
 							
 					}
 					
@@ -44,7 +44,7 @@
 				for(var j=0; j<=26; j++){
 					$("ul." + alphabet[j]+ " li").click(function(){ //albüme tıklayınca tıklananı ekliyor
  						var te = $(this).text();
- 						$('.List').append('<li> <button>' + te + '</button> </li>');
+ 						$('.List').append('<li> <button style="color:#2222FF">' + te + '</button> </li>');
 					});
 				}	
 			}	
@@ -73,6 +73,7 @@
 	}
 	.ui-layout-east {
 		background: #009999;
+		background-image:url("/static/css/images.jpg");
 	}
 	.ui-layout-center {
 		background: #00AAAA;
@@ -87,14 +88,14 @@
 <body>
 	<div class="ui-layout-west">
 	<ul>
-	<button id="A">A</button>
+	<button id="A" style="color:#2222FF; font-family:tahoma; font-weight:bold; font-size:100% ">A</button>
 	<ul class="A"></ul>
 	</ul>
 	
 	</div>
 	<div class="ui-layout-center">
 	<ul>	
-	<ul id="List"><button>Liste</button></ul>
+	<ul id="List"><button style="color:#2222FF; font-family:tahoma; font-weight:bold; font-size:100% ">Liste</button></ul>
 	<ul class="List"></ul>
 	</ul>
 	</div>

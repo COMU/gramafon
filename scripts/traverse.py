@@ -3,6 +3,7 @@ import os
 import sys
 import hashlib
 import datetime
+import LyricWiki_services # Added to get song lyrics
 from os.path import abspath, dirname
 from os import getcwd
 from watchdog.events import FileSystemEventHandler
@@ -26,6 +27,9 @@ from gramafon.utils.id3.handler import MP3FileInfo as ID3Manager
 from gramafon.utils.logger import Logger
 
 logger = Logger()
+
+soap = LyricWiki_services.LyricWikiBindingSOAP("http://lyrics.wikia.com/server.php") #added to get song lyrics
+songlyric = LyricWiki_services.getSongRequest()
 
 logger.message("Path: %s" % settings.ARCHIEVE_PATH)
 for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
@@ -51,6 +55,7 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 	    try:	
             	album_name = id3_manager.get_album_name()
             	logger.message("\tAlbum Name: %s" % album_name)
+		songlyric.Song = album_name # get song lyric
 	    except:
 		album_name = ""
                 logger.message("\tAlbum Name: %s" % album_name)
@@ -65,6 +70,7 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
             try:
 	    	singer_name = id3_manager.get_singer_info()
             	logger.message("\tSinger: %s" % singer_name)
+		songlyric.Artist = singer_name # get song artist
 	    except:
 		singer_name = ""
                 logger.message("\tSinger: %s" % singer_name)
@@ -76,7 +82,7 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
                 song_title = ""
                 logger.message("\tSong: %s" % song_title)
 
-
+	    lyric = soap.getSong(songlyric) # get song lyrics
             type=fileExtension
 
             song_file, status = File.objects.get_or_create(path=path, size=size, md5=md5,type=fileExtension,sha1=sha1)
@@ -89,9 +95,9 @@ for root, dirs, files in os.walk(settings.ARCHIEVE_PATH):
 	    album, status = Album.objects.get_or_create(name=album_name, publish_date=album_year)
             
 	    try:
-		song = Song.objects.create(title=song_title, singer=singer, album=album, song_file=song_file)
+		song = Song.objects.create(title=song_title, singer=singer, album=album, song_file=song_file, lyric = lyric)
 	    except:
-		song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file)
+		song = Song.objects.create(title=prefix, singer=singer, album=album, song_file=song_file, lyric = lyric)
 
 	else:
             logger.message("File: %s is already checked" % (f) )

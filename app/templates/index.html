@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<style>
+table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+</style>
+
+<body ng-app="gramafonApp">
+
+<table style="width:100%">
+    <th>
+        Artist
+    </th>
+    <th>
+        Album
+    </th>
+    <th>
+        Title
+    </th>
+    <th>
+        Genre
+    </th>
+    <th>
+        Song Path
+    </th>
+    </tr>
+    {% for song_info in song_info_list %}
+    <tr ng-init="path1=song_info['path']" ng-dblclick="play(path1)">
+        <th>
+            {{ song_info['artist'] }}
+        </th>
+        <th>
+            {{ song_info['album'] }}
+        </th>
+        <th>
+            {{ song_info['title'] }}
+        </th>
+        <th>
+            {{ song_info['genre'] }}
+        </th>
+        <th>
+            {{ song_info['path'] }}
+        </th>
+        <th>
+            <button ng-click="play(song_info['path'])"> PLAYSONG</button>
+        </th>
+    </tr>
+    {% endfor %}
+</table>
+
+<div ng-controller="gramafonController">
+    <button name="play" ng-click="play()">PLAY</button>
+    <button name="play" ng-click="stop()">STOP</button>
+</div>
+
+</body>
+<script>
+    var app = angular.module("gramafonApp",[]);
+   	app.controller("gramafonController", function($scope, $http){
+
+        $scope.play = function(path){
+            console.log(path);
+            $http({
+ 			    method: 'POST',
+ 				url: '/play',
+ 				params: {path: path}
+ 			}).then(function successCallback(response) {
+ 			    console.log(response);
+
+
+            }, function errorCallback(response) {
+                console.log(response);
+
+  		    });
+		};
+
+	    $scope.stop = function(){
+            $http({
+ 			    method: 'POST',
+ 				url: '/stop'
+ 			}).then(function successCallback(response) {
+ 			    console.log(response);
+
+            }, function errorCallback(response) {
+                console.log(response);
+
+  		    });
+		};
+	});
+
+
+</script>
+</html>

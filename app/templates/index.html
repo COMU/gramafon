@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
@@ -18,72 +19,72 @@ table tr:nth-child(even) {
 </style>
 
 <body ng-app="gramafonApp">
-
-<table style="width:100%">
-    <th>
-        Artist
-    </th>
-    <th>
-        Album
-    </th>
-    <th>
-        Title
-    </th>
-    <th>
-        Genre
-    </th>
-    <th>
-        Song Path
-    </th>
-    </tr>
-    {% for song_info in song_info_list %}
-    <tr ng-init="path1=song_info['path']" ng-dblclick="play(path1)">
-        <th>
-            {{ song_info['artist'] }}
-        </th>
-        <th>
-            {{ song_info['album'] }}
-        </th>
-        <th>
-            {{ song_info['title'] }}
-        </th>
-        <th>
-            {{ song_info['genre'] }}
-        </th>
-        <th>
-            {{ song_info['path'] }}
-        </th>
-        <th>
-            <button ng-click="play(song_info['path'])"> PLAYSONG</button>
-        </th>
-    </tr>
-    {% endfor %}
-</table>
-
 <div ng-controller="gramafonController">
-    <button name="play" ng-click="play()">PLAY</button>
-    <button name="play" ng-click="stop()">STOP</button>
-</div>
 
+    <div>
+        SEARCH:
+        <input type="text" ng-model="arama" placeholder="Aramak icin bir seyler girin">
+    </div>
+    <table style="width:100%">
+        <th ng-click="sort('artist')">
+            Artist
+        </th>
+        <th ng-click="sort('album')">
+            Album
+        </th >
+        <th ng-click="sort('title')">
+            Title
+        </th>
+
+        <th>
+            Song Path
+        </th>
+        {% for song_info in song_info_list |sort(attribute='title', reverse=true) %}
+        <tr>
+            <th>
+                {{ song_info['artist'] }}
+            </th>
+            <th>
+                {{ song_info['album'] }}
+            </th>
+            <th>
+                {{ song_info['title'] }}
+            </th>
+            <th>
+                {{ song_info['path'] }}
+            </th>
+            <th>
+                <button name="play" ng-click="play('{{song_info['path']}}')">P</button>
+            </th>
+        </tr>
+        {% endfor %}
+
+
+    </table>
+
+    <div>
+        <button name="stop" ng-click="stop()">STOP</button>
+    </div>
+</div>
 </body>
 <script>
     var app = angular.module("gramafonApp",[]);
+
    	app.controller("gramafonController", function($scope, $http){
 
-        $scope.play = function(path){
-            console.log(path);
+        $scope.play = function(song_path){
             $http({
  			    method: 'POST',
  				url: '/play',
- 				params: {path: path}
- 			}).then(function successCallback(response) {
- 			    console.log(response);
+ 				data: angular.fromJson({"song": song_path})
+ 			}).then(successCallback , errorCallback);
 
-
-            }, function errorCallback(response) {
+ 		    function successCallback(response) {
                 console.log(response);
-
-  		    });
+ 			};
+ 			function errorCallback(response) {
+                console.log(response);
+  		    };
 		};
 
 	    $scope.stop = function(){
@@ -98,8 +99,22 @@ table tr:nth-child(even) {
 
   		    });
 		};
-	});
 
+		$scope.sort = function(sort_field){
+            $http({
+ 			    method: 'POST',
+ 				url: '/sort',
+ 				data: angular.fromJson({"sort_field": sort_field})
+ 			}).then(successCallback , errorCallback);
+
+ 		    function successCallback(response) {
+                console.log(response);
+ 			};
+ 			function errorCallback(response) {
+                console.log(response);
+  		    };
+		};
+	});
 
 </script>
 </html>

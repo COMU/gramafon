@@ -2,19 +2,23 @@
 
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
 
 <style>
-table, th , td  {
-  border: 1px solid grey;
-  border-collapse: collapse;
-  padding: 5px;
-}
-table tr:nth-child(odd) {
-  background-color: #f1f1f1;
-}
-table tr:nth-child(even) {
-  background-color: #ffffff;
-}
+    table, th , td  {
+        border: 1px solid grey;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+    table tr:nth-child(odd) {
+        background-color: #f1f1f1;
+    }
+    table tr:nth-child(even) {
+        background-color: #ffffff;
+    }
 
 </style>
 
@@ -25,21 +29,27 @@ table tr:nth-child(even) {
         SEARCH:
         <input type="text" ng-model="arama" placeholder="Aramak icin bir seyler girin">
     </div>
-    <table style="width:100%">
-        <th ng-click="sort('artist')">
+    <table id="gramafon" style="width:100%">
+        <thead>
+        <th>
             Artist
         </th>
-        <th ng-click="sort('album')">
+        <th>
             Album
-        </th >
-        <th ng-click="sort('title')">
+        </th>
+        <th>
             Title
         </th>
 
         <th>
             Song Path
         </th>
-        {% for song_info in song_info_list |sort(attribute='title', reverse=true) %}
+        <th>
+            Play
+        </th>
+        <thead>
+        <tbody>
+        {% for song_info in song_info_list %}
         <tr>
             <th>
                 {{ song_info['artist'] }}
@@ -58,7 +68,7 @@ table tr:nth-child(even) {
             </th>
         </tr>
         {% endfor %}
-
+        </tbody>
 
     </table>
 
@@ -67,6 +77,8 @@ table tr:nth-child(even) {
     </div>
 </div>
 </body>
+</html>
+
 <script>
     var app = angular.module("gramafonApp",[]);
 
@@ -100,21 +112,14 @@ table tr:nth-child(even) {
   		    });
 		};
 
-		$scope.sort = function(sort_field){
-            $http({
- 			    method: 'POST',
- 				url: '/sort',
- 				data: angular.fromJson({"sort_field": sort_field})
- 			}).then(successCallback , errorCallback);
-
- 		    function successCallback(response) {
-                console.log(response);
- 			};
- 			function errorCallback(response) {
-                console.log(response);
-  		    };
-		};
 	});
 
+	$(document).ready(function () {
+            $('#gramafon').DataTable({
+            });
+    });
+
+
+
+
 </script>
-</html>

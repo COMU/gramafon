@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-
 
 <style>
     table, th , td  {
@@ -19,61 +17,90 @@
     table tr:nth-child(even) {
         background-color: #ffffff;
     }
-
+    .mouse-over-background:hover{
+        background: #C2CFDF;
+        cursor:pointer;
+    }
+    .clicking{
+        background: #A7B7CD;
+    }
+    .mouse-over-button:hover{
+        color: #FEFEFE;
+        cursor: pointer;
+        background-color: #2E2828;
+    }
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: red;
+        color: white;
+        text-align: center;
+    }
+    .alt {
+        flex-shrink: 0;
+        width: 100%;
+    }
 </style>
 
 <body ng-app="gramafonApp">
 <div ng-controller="gramafonController">
-
     <div>
-        SEARCH:
-        <input type="text" ng-model="arama" placeholder="Aramak icin bir seyler girin">
+        <table id="gramafon" style="width:100%">
+            <thead>
+            <th>
+                Title
+            </th>
+            <th>
+                Artist
+            </th>
+            <th>
+                Album
+            </th>
+            <th>
+                Genre
+            </th>
+            <thead>
+            <tbody>
+            {% for song_info in song_info_list %}
+            <tr class="mouse-over-background" ng-dblclick="play('{{song_info['path']}}')">
+                <th style=" cursor:pointer;">
+                    {{ song_info['title'] }}
+                </th>
+                <th>
+                    {{ song_info['artist'] }}
+                </th>
+                <th>
+                    {{ song_info['album'] }}
+                </th>
+                <th>
+                    {{ song_info['genre'] }}
+                </th>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
-    <table id="gramafon" style="width:100%">
-        <thead>
-        <th>
-            Artist
-        </th>
-        <th>
-            Album
-        </th>
-        <th>
-            Title
-        </th>
-
-        <th>
-            Song Path
-        </th>
-        <th>
-            Play
-        </th>
-        <thead>
-        <tbody>
-        {% for song_info in song_info_list %}
-        <tr>
-            <th>
-                {{ song_info['artist'] }}
-            </th>
-            <th>
-                {{ song_info['album'] }}
-            </th>
-            <th>
-                {{ song_info['title'] }}
-            </th>
-            <th>
-                {{ song_info['path'] }}
-            </th>
-            <th>
-                <button name="play" ng-click="play('{{song_info['path']}}')">P</button>
-            </th>
-        </tr>
-        {% endfor %}
-        </tbody>
-
-    </table>
-
     <div>
-        <button name="stop" ng-click="stop()">STOP</button>
+    </div>
+    <div class="footer">
+        <table style="width:100%">
+            <th>
+                <button class="mouse-over-button" ng-click="randomList()">RANDOM</button>
+                <button class="mouse-over-button" ng-click="stop()">STOP</button>
+                <button class="mouse-over-button" ng-click="pause()" ng-dblclick="unPause()">PAUSE</button>
+            </th>
+            <th>
+                <audio controls>
+                    <source src="/home/burcin/song/song/01.TheCrushOfLove.mp3">
+                </audio>
+            </th>
+            <th>
+                <button class="mouse-over-button" ng-click="volumeUp()"> +</button>
+                <button class="mouse-over-button" ng-click="volumeDown()"> -</button>
+            </th>
+        </table>
     </div>
 </div>
 </body>
@@ -85,6 +112,8 @@
    	app.controller("gramafonController", function($scope, $http){
 
         $scope.play = function(song_path){
+            $(".scroller_result").css("color","red");
+
             $http({
  			    method: 'POST',
  				url: '/play',
@@ -105,21 +134,78 @@
  				url: '/stop'
  			}).then(function successCallback(response) {
  			    console.log(response);
-
-            }, function errorCallback(response) {
+            },
+            function errorCallback(response) {
                 console.log(response);
-
   		    });
 		};
 
+	    $scope.pause = function(){
+            $http({
+ 			    method: 'POST',
+ 				url: '/pause'
+ 			}).then(function successCallback(response) {
+ 			    console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response);
+  		    });
+		};
+
+	    $scope.unPause = function(){
+            $http({
+            method: 'POST',
+            url: '/unPause'
+ 			}).then(
+ 			function successCallback(response) {
+ 			    console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response);
+            });
+		};
+
+		$scope.volumeUp = function(){
+            $http({
+            method: 'POST',
+            url: '/volumeUp'
+ 			}).then(
+ 			function successCallback(response) {
+ 			    console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response);
+            });
+		};
+
+		$scope.volumeDown = function(){
+            $http({
+            method: 'POST',
+            url: '/volumeDown'
+ 			}).then(
+ 			function successCallback(response) {
+ 			    console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response);
+            });
+		};
+		$scope.randomList = function(){
+            $http({
+            method: 'POST',
+            url: '/randomList'
+ 			}).then(
+ 			function successCallback(response) {
+ 			    console.log(response);
+            },
+            function errorCallback(response) {
+                console.log(response);
+            });
+		};
 	});
 
 	$(document).ready(function () {
             $('#gramafon').DataTable({
             });
     });
-
-
-
-
 </script>
